@@ -61,11 +61,11 @@ Then open **http://localhost:3000**
 ```
 DOC_SERVICE_URL=...       # document service /analyze
 DOC_SERVICE_TOKEN=...     # bearer token
-LLM_BASE_URL=...          # LLM /v1 base URL
-LLM_API_KEY=...           # bearer token
+LLM_BASE_URL=...          # LLM /v1 base URL (ends with /v1)
+LLM_API_KEY=...           # bearer token (same as VLLM_API_KEY)
 LLM_MODEL=invoice-vlm
 REVIEW_THRESHOLD=0.80
-MAX_UPLOAD_BYTES=26214400
+DATABASE_URL=...          # local dev only; compose overrides
 ```
 
 ## Upload & Review

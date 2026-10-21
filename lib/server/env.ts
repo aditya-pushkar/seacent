@@ -8,7 +8,7 @@ const envSchema = z.object({
   DOC_SERVICE_TOKEN: z.string().min(1),
   LLM_BASE_URL: z.url(),
   LLM_MODEL: z.string().min(1),
-  LLM_API_KEY: z.string().min(1),
+  LLM_API_KEY: z.string().optional(),
   REVIEW_THRESHOLD: z.coerce.number().min(0).max(1).default(0.8),
   MAX_UPLOAD_BYTES: z.coerce.number().int().positive().default(26_214_400),
   PROCESSING_STALE_MINUTES: z.coerce.number().int().positive().default(30),

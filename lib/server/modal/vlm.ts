@@ -48,7 +48,7 @@ type RequestOutcome =
 async function postChat(
   url: string,
   payload: Record<string, unknown>,
-  apiKey: string,
+  apiKey?: string,
 ): Promise<RequestOutcome> {
   let lastStatus: number | null = null;
   const rejectedFormat = false;
@@ -58,7 +58,7 @@ async function postChat(
       const response = await axios.post(url, payload, {
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
+          ...(apiKey ? { Authorization: `Bearer ${apiKey}` } : {}),
         },
         timeout: 300_000,
         maxBodyLength: Infinity,
@@ -298,7 +298,7 @@ export async function warmVlm(timeoutMs = COLD_START_TIMEOUT_MS): Promise<boolea
   while (Date.now() < deadline) {
     try {
       const response = await axios.get(`${base}/models`, {
-        headers: { Authorization: `Bearer ${env.LLM_API_KEY}` },
+        headers: { ...(env.LLM_API_KEY ? { Authorization: `Bearer ${env.LLM_API_KEY}` } : {}) },
         timeout: 30_000,
         validateStatus: () => true,
       });

@@ -1,0 +1,13 @@
+node_modules
+.next
+.git
+.gitignore
+.env
+.env.*
+modal-deployments
+public/invoices_dataset_final
+*.log
+tsconfig.tsbuildinfo
+backend-todo.txt
+todo.md
+drizzle-todo.md

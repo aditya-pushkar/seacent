@@ -1,0 +1,56 @@
+name: seacent
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: seacent
+      POSTGRES_PASSWORD: seacent
+      POSTGRES_DB: seacent
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U seacent -d seacent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    image: seacent-app:local
+    build:
+      context: .
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://seacent:seacent@db:5432/seacent
+      NODE_ENV: production
+      PORT: "3000"
+      DOC_SERVICE_URL: ${DOC_SERVICE_URL:-}
+      DOC_SERVICE_TOKEN: ${DOC_SERVICE_TOKEN:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-}
+      LLM_MODEL: ${LLM_MODEL:-invoice-vlm}
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      REVIEW_THRESHOLD: ${REVIEW_THRESHOLD:-0.80}
+      MAX_UPLOAD_BYTES: ${MAX_UPLOAD_BYTES:-26214400}
+      PROCESSING_STALE_MINUTES: ${PROCESSING_STALE_MINUTES:-30}
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["sh", "-c", "pnpm db:migrate && pnpm start"]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "node -e \"fetch('http://127.0.0.1:3000/api/invoices').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\"",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+volumes:
+  postgres-data:

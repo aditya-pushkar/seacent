@@ -1,0 +1,880 @@
+{
+  "id": "fc320a1f-48be-482d-a85c-ac0793366de9",
+  "prevId": "73a74919-6f07-4465-870d-5e0bb8a4e5bb",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.document_headers": {
+      "name": "document_headers",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "source_file": {
+          "name": "source_file",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_sha256": {
+          "name": "source_sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'queued'"
+        },
+        "page_count": {
+          "name": "page_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "processing_started_at": {
+          "name": "processing_started_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "processing_finished_at": {
+          "name": "processing_finished_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "processing_meta": {
+          "name": "processing_meta",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "error": {
+          "name": "error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "invoice_number": {
+          "name": "invoice_number",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "invoice_date": {
+          "name": "invoice_date",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seller_name": {
+          "name": "seller_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "seller_tax_id": {
+          "name": "seller_tax_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "buyer_name": {
+          "name": "buyer_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "buyer_tax_id": {
+          "name": "buyer_tax_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "buyer_iec": {
+          "name": "buyer_iec",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_invoice_value": {
+          "name": "total_invoice_value",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freight_charges": {
+          "name": "freight_charges",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freight_currency": {
+          "name": "freight_currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "freight_included": {
+          "name": "freight_included",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "insurance_charges": {
+          "name": "insurance_charges",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "insurance_currency": {
+          "name": "insurance_currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "insurance_included": {
+          "name": "insurance_included",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "other_charges": {
+          "name": "other_charges",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "other_charges_currency": {
+          "name": "other_charges_currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "other_charges_included": {
+          "name": "other_charges_included",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_tax_amount": {
+          "name": "total_tax_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_arithmetic_valid": {
+          "name": "is_arithmetic_valid",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "needs_review": {
+          "name": "needs_review",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "review_reasons": {
+          "name": "review_reasons",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "reconciliation": {
+          "name": "reconciliation",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "document_headers_status_created_idx": {
+          "name": "document_headers_status_created_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "document_headers_sha256_idx": {
+          "name": "document_headers_sha256_idx",
+          "columns": [
+            {
+              "expression": "source_sha256",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.document_line_items": {
+      "name": "document_line_items",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "header_id": {
+          "name": "header_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "line_number": {
+          "name": "line_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "page_number": {
+          "name": "page_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "row_bbox": {
+          "name": "row_bbox",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "item_description": {
+          "name": "item_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hsn_code": {
+          "name": "hsn_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "quantity": {
+          "name": "quantity",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "unit_of_measure": {
+          "name": "unit_of_measure",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "uom_as_printed": {
+          "name": "uom_as_printed",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "unit_price": {
+          "name": "unit_price",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_line_amount": {
+          "name": "total_line_amount",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "flags": {
+          "name": "flags",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        }
+      },
+      "indexes": {
+        "document_line_items_header_line_uq": {
+          "name": "document_line_items_header_line_uq",
+          "columns": [
+            {
+              "expression": "header_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "line_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "document_line_items_header_idx": {
+          "name": "document_line_items_header_idx",
+          "columns": [
+            {
+              "expression": "header_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "document_line_items_header_id_document_headers_id_fk": {
+          "name": "document_line_items_header_id_document_headers_id_fk",
+          "tableFrom": "document_line_items",
+          "tableTo": "document_headers",
+          "columnsFrom": [
+            "header_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.document_pages": {
+      "name": "document_pages",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "header_id": {
+          "name": "header_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "page_number": {
+          "name": "page_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_kind": {
+          "name": "source_kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "png_data": {
+          "name": "png_data",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image_width": {
+          "name": "image_width",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image_height": {
+          "name": "image_height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ocr_words": {
+          "name": "ocr_words",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "page_error": {
+          "name": "page_error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "raw_model_json": {
+          "name": "raw_model_json",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "document_pages_header_page_uq": {
+          "name": "document_pages_header_page_uq",
+          "columns": [
+            {
+              "expression": "header_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "page_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "document_pages_header_id_document_headers_id_fk": {
+          "name": "document_pages_header_id_document_headers_id_fk",
+          "tableFrom": "document_pages",
+          "tableTo": "document_headers",
+          "columnsFrom": [
+            "header_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.field_confidences": {
+      "name": "field_confidences",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "header_id": {
+          "name": "header_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "line_number": {
+          "name": "line_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "field": {
+          "name": "field",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "numeric(4, 3)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw_value": {
+          "name": "raw_value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "normalized_value": {
+          "name": "normalized_value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "evidence": {
+          "name": "evidence",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "page": {
+          "name": "page",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bbox": {
+          "name": "bbox",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "source": {
+          "name": "source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "components": {
+          "name": "components",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "field_confidences_scope_uq": {
+          "name": "field_confidences_scope_uq",
+          "columns": [
+            {
+              "expression": "header_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "field",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "coalesce(\"line_number\", 0)",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "field_confidences_header_idx": {
+          "name": "field_confidences_header_idx",
+          "columns": [
+            {
+              "expression": "header_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "field_confidences_header_id_document_headers_id_fk": {
+          "name": "field_confidences_header_id_document_headers_id_fk",
+          "tableFrom": "field_confidences",
+          "tableTo": "document_headers",
+          "columnsFrom": [
+            "header_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.source_documents": {
+      "name": "source_documents",
+      "schema": "",
+      "columns": {
+        "header_id": {
+          "name": "header_id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "original_filename": {
+          "name": "original_filename",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mime_type": {
+          "name": "mime_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data": {
+          "name": "data",
+          "type": "bytea",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "byte_size": {
+          "name": "byte_size",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sha256": {
+          "name": "sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "source_documents_header_id_document_headers_id_fk": {
+          "name": "source_documents_header_id_document_headers_id_fk",
+          "tableFrom": "source_documents",
+          "tableTo": "document_headers",
+          "columnsFrom": [
+            "header_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.validation_issues": {
+      "name": "validation_issues",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "header_id": {
+          "name": "header_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "severity": {
+          "name": "severity",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "message": {
+          "name": "message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "field": {
+          "name": "field",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "line_number": {
+          "name": "line_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "expected": {
+          "name": "expected",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "actual": {
+          "name": "actual",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "page": {
+          "name": "page",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "bbox": {
+          "name": "bbox",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "validation_issues_header_idx": {
+          "name": "validation_issues_header_idx",
+          "columns": [
+            {
+              "expression": "header_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "validation_issues_header_id_document_headers_id_fk": {
+          "name": "validation_issues_header_id_document_headers_id_fk",
+          "tableFrom": "validation_issues",
+          "tableTo": "document_headers",
+          "columnsFrom": [
+            "header_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
